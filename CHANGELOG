@@ -1,4 +1,9 @@
 jc-web changelog
 
+20200826 v0.1.0
+- Added pretty printing option
+- Added color output
+- Removed extra styling and links
+
 20200825 v0.0.1
 - Initial commit
