@@ -1,5 +1,9 @@
 jc-web changelog
 
+TODO
+- handle exceptions (flash message?)
+- package for heroku or similar
+
 20200826 v0.1.0
 - Added pretty printing option
 - Added color output

@@ -83,7 +83,7 @@ parsers = [
 @app.route('/', methods=('GET', 'POST'))
 def home():
     form = MyInput()
-    output = ''
+    output = 'JSON Conversion'
     if form.validate_on_submit():
         parser = importlib.import_module('jc.parsers.' + form.command_parser.data)
         output = parser.parse(form.command_output.data)
