@@ -7,6 +7,9 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- jinja2-highlight CSS -->
+    <link href="{{ url_for('static', filename='code.css') }}" rel="stylesheet" type="text/css">
   </head>
 
   <body>
@@ -14,14 +17,15 @@
     {% include 'includes/_navbar.html' %}
 
     <main role="main" class="container">
-      <div class="container">
-        <div class="starter-template">
-          <hr style="padding-top: 100px;">
+      <!-- <div class="container"> -->
+      <div>
+        <!-- <div class="starter-template"> -->
+        <div>
+          <hr style="padding-top: 50px;">
           {% block body %}
           {% endblock %}
         </div>
       </div>
-
     </main><!-- /.container -->
 
     <!-- Bootstrap core JavaScript

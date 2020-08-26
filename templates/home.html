@@ -11,7 +11,6 @@
   </div>
  -->
   <div>
-    Please enter you command output and select a parser.
     <div class="form-group">
       <form method="POST" action="{{ url_for('home') }}">
           <p>{{ form.csrf_token }}
@@ -23,14 +22,19 @@
       </form>
     </div>
   </div>
-  <div>
-    <p>
+
+  <div class="jumbotron" style="padding-top: 10px; padding-bottom: 5px;">
     {% if form.pretty_print.data %}
-      <pre>
-{{ output }}
-      </pre>
+        {% highlight 'json', noclasses=True %}
+{{ output|safe }}
+        {% endhighlight %}
+   
     {% else %}
-      {{ output }}
+
+      {% highlight 'json', noclasses=True %}
+{{ output|safe }}
+      {% endhighlight %}
+
     {% endif %}
-  </div> 
 {% endblock %}
+  </div>
