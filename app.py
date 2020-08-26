@@ -6,7 +6,7 @@ import json
 from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
@@ -85,8 +85,12 @@ def home():
     form = MyInput()
     output = 'JSON Conversion'
     if form.validate_on_submit():
-        parser = importlib.import_module('jc.parsers.' + form.command_parser.data)
-        output = parser.parse(form.command_output.data)
+        try:
+            parser = importlib.import_module('jc.parsers.' + form.command_parser.data)
+            output = parser.parse(form.command_output.data)
+        except Exception:
+            flash('jc was unable to parse the content. Did you use the correct parser?', 'danger')
+            return redirect(url_for('home'))
         if form.pretty_print.data:
             output = json.dumps(output, indent=2)
         else:
@@ -101,7 +105,7 @@ def home():
 class MyInput(FlaskForm):
     command_parser = SelectField('Parser', choices=parsers)
     command_output = TextAreaField('Command Output', render_kw={'rows':'5', 'cols':'100'}, validators=[DataRequired()])
-    pretty_print = BooleanField('Pretty Print')
+    pretty_print = BooleanField('Pretty Print', default='checked')
     submit = SubmitField('Convert to JSON')
 
 

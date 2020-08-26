@@ -1,8 +1,11 @@
 jc-web changelog
 
 TODO
-- handle exceptions (flash message?)
 - package for heroku or similar
+
+20200826 v0.2.0
+- Use flash messages to handle exceptions
+- Check pretty print option by default
 
 20200826 v0.1.1
 - Visual enhancements
