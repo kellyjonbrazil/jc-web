@@ -24,17 +24,6 @@
   </div>
 
   <div class="jumbotron" style="padding-top: 10px; padding-bottom: 5px;">
-    {% if form.pretty_print.data %}
-        {% highlight 'json', noclasses=True %}
 {{ output|safe }}
-        {% endhighlight %}
-   
-    {% else %}
-
-      {% highlight 'json', noclasses=True %}
-{{ output|safe }}
-      {% endhighlight %}
-
-    {% endif %}
-{% endblock %}
   </div>
+{% endblock %}

@@ -3,10 +3,10 @@
 
 import importlib
 import json
-import jinja2_highlight
-# from pygments import highlight
-# from pygments.lexers import JsonLexer
-# from pygments.formatters import HtmlFormatter
+# import jinja2_highlight
+from pygments import highlight
+from pygments.lexers import JsonLexer
+from pygments.formatters import HtmlFormatter
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
@@ -16,14 +16,14 @@ DEBUG = True
 TITLE = 'jc web'
 
 
-class MyFlask(Flask):
-    jinja_options = dict(Flask.jinja_options)
-    jinja_options.setdefault('extensions',
-        []).append('jinja2_highlight.HighlightExtension')
+# class MyFlask(Flask):
+#     jinja_options = dict(Flask.jinja_options)
+#     jinja_options.setdefault('extensions',
+#         []).append('jinja2_highlight.HighlightExtension')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dev'
-app.jinja_env.extend(jinja2_highlight_cssclass = 'codehilite')
+# app.jinja_env.extend(jinja2_highlight_cssclass = 'codehilite')
 
 parsers = [
     'airport',
@@ -97,10 +97,10 @@ def home():
         output = parser.parse(form.command_output.data)
         if form.pretty_print.data:
             output = json.dumps(output, indent=2)
-            # output = highlight(output, JsonLexer(), HtmlFormatter(noclasses=True))
+            output = highlight(output, JsonLexer(), HtmlFormatter(noclasses=True))
         else:
             output = json.dumps(output)
-            # output = highlight(output, JsonLexer(), HtmlFormatter(noclasses=True))
+            output = highlight(output, JsonLexer(), HtmlFormatter(noclasses=True))
     return render_template('home.html', title=TITLE, form=form, output=output)
 
 
