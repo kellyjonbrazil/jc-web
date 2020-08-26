@@ -13,11 +13,11 @@
   <div>
     Please enter you command output and select a parser.
     <div class="form-group">
-      <form method="POST" action="/">
+      <form method="POST" action="{{ url_for('home') }}">
           <p>{{ form.csrf_token }}
           <p>{{ form.command_parser.label }} {{ form.command_parser }}
           <p>{{ form.pretty_print}} {{ form.pretty_print.label}}
-          <p>{{ form.command_output.label }}
+          <p>{{ form.command_output.label }} <a href="{{ url_for('home') }}">Clear</a>
           <p>{{ form.command_output }}
           <p>{{ form.submit}}
       </form>

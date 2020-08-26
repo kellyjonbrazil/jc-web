@@ -81,7 +81,7 @@ parsers = [
 
 
 @app.route('/', methods=('GET', 'POST'))
-def index():
+def home():
     form = MyInput()
     output = ''
     if form.validate_on_submit():
