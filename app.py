@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import secrets
 import importlib
 import json
 from pygments import highlight
@@ -11,11 +12,12 @@ from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
-DEBUG = True
 TITLE = 'jc web'
+DEBUG = False
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'dev'
+secret_key = secrets.token_hex(16)
+app.config['SECRET_KEY'] = secret_key
 
 parsers = [
     'airport',
