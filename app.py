@@ -89,7 +89,7 @@ def home():
     if form.validate_on_submit():
         try:
             parser = importlib.import_module('jc.parsers.' + form.command_parser.data)
-            output = parser.parse(form.command_output.data)
+            output = parser.parse(form.command_output.data, quiet=True)
         except Exception:
             flash('jc was unable to parse the content. Did you use the correct parser?', 'danger')
             return redirect(url_for('home'))
