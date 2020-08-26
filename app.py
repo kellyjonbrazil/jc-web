@@ -3,6 +3,9 @@
 
 import importlib
 import json
+from pygments import highlight
+from pygments.lexers import JsonLexer
+from pygments.formatters import HtmlFormatter
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField
@@ -85,6 +88,7 @@ def index():
         parser = importlib.import_module('jc.parsers.' + form.command_parser.data)
         output = parser.parse(form.command_output.data)
         output = json.dumps(output, indent=2)
+        # output = str(highlight(output, JsonLexer(), HtmlFormatter()))
     return render_template('index.html', title=TITLE, form=form, output=output)
 
 
