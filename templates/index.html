@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-
 {% block body %}
 <!-- <div class="jumbotron">
     <h1 class="display-4">class is display-4 </h1>
@@ -13,18 +12,25 @@
  -->
   <div>
     Please enter you command output and select a parser.
-
-    <form method="POST" action="/">
-        {{ form.csrf_token }}
-        <p>{{ form.command_parser.label }} {{ form.command_parser }}
-        <p>{{ form.command_output.label }} {{ form.command_output }}
-        <p><input type="submit" value="Go">
-    </form>
-  <p>
+    <div class="form-group">
+      <form method="POST" action="/">
+          <p>{{ form.csrf_token }}
+          <p>{{ form.command_parser.label }} {{ form.command_parser }}
+          <p>{{ form.pretty_print}} {{ form.pretty_print.label}}
+          <p>{{ form.command_output.label }}
+          <p>{{ form.command_output }}
+          <p>{{ form.submit}}
+      </form>
+    </div>
   </div>
   <div>
-    <pre>
+    <p>
+    {% if form.pretty_print.data %}
+      <pre>
 {{ output }}
-    </pre>
+      </pre>
+    {% else %}
+      {{ output }}
+    {% endif %}
   </div> 
 {% endblock %}
