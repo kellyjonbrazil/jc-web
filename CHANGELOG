@@ -1,7 +1,8 @@
 jc-web changelog
 
-TODO
-- package for heroku or similar
+20200826 v0.2.1
+- Deployable to Heroku
+- Use quiet=True option in parse
 
 20200826 v0.2.0
 - Use flash messages to handle exceptions
