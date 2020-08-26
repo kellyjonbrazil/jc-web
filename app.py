@@ -109,7 +109,7 @@ def home():
 
 class MyInput(FlaskForm):
     command_parser = SelectField('Parser', choices=parsers)
-    command_output = TextAreaField('Command Output', render_kw={'rows':'10', 'cols':'100'}, validators=[DataRequired()])
+    command_output = TextAreaField('Command Output', render_kw={'rows':'5', 'cols':'100'}, validators=[DataRequired()])
     pretty_print = BooleanField('Pretty Print')
     submit = SubmitField('Convert to JSON')
 
