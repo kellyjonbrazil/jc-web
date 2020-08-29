@@ -16,7 +16,7 @@ from jc.cli import info as jc_info
 from jc.cli import parsers
 
 TITLE = 'jc web'
-DEBUG = True
+DEBUG = False
 
 app = Flask(__name__)
 
