@@ -11,6 +11,7 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
+from jc.cli import info as jc_info
 
 TITLE = 'jc web'
 DEBUG = False
@@ -85,7 +86,7 @@ parsers = [
 @app.route('/', methods=('GET', 'POST'))
 def home():
     form = MyInput()
-    output = 'JSON Conversion'
+    output = ''
     if form.validate_on_submit():
         try:
             parser = importlib.import_module('jc.parsers.' + form.command_parser.data)
@@ -98,7 +99,7 @@ def home():
         else:
             output = json.dumps(output)
         output = highlight(output, JsonLexer(), HtmlFormatter(noclasses=True))
-    return render_template('home.html', title=TITLE, form=form, output=output)
+    return render_template('home.html', title=TITLE, jc_info=jc_info, form=form, output=output)
 
 
 # --- FORMS ---
@@ -106,7 +107,7 @@ def home():
 
 class MyInput(FlaskForm):
     command_parser = SelectField('Parser', choices=parsers)
-    command_output = TextAreaField('Command Output', render_kw={'rows':'5', 'cols':'100'}, validators=[DataRequired()])
+    command_output = TextAreaField('Command Output', validators=[DataRequired()])
     pretty_print = BooleanField('Pretty Print', default='checked')
     submit = SubmitField('Convert to JSON')
 
