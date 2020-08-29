@@ -1,17 +1,30 @@
 {% extends 'layout.html' %}
 {% block body %}
-  <div>
-    <div class="form-group">
-      <form method="POST" action="{{ url_for('home') }}">
-          <p>{{ form.csrf_token }}
-          <p>{{ form.command_parser.label }}: {{ form.command_parser }}
-          <p>{{ form.pretty_print}} {{ form.pretty_print.label}}
-          <p>{{ form.command_output.label }}:
-          <p>{{ form.command_output }}
-          <p>{{ form.submit}}  <a href="{{ url_for('home') }}">Clear</a>
-      </form>
-    </div>
-  </div>
+    <form method="POST" action="">
+      {{ form.csrf_token }}
+      <div class="form-group">
+        {{ form.command_parser.label(class="form-control-label") }}: {{ form.command_parser(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.command_output.label(class="form-control-label") }}:
+        {% if form.command_output.errors %}
+          {{ form.command_output(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.command_outputt.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+        {% else %}
+          {{ form.command_output(class="form-control") }}
+        {% endif %}
+      </div>
+      <div class="form-check">
+        {{ form.pretty_print(class="form-check-input mb-3") }} {{ form.pretty_print.label(class="form-check-label mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-success") }}  <a class="btn btn-outline-info" href="{{ url_for('home') }}">Clear</a>
+      </div>
+    </form>
 
   <div class="jumbotron" style="padding-top: 10px; padding-bottom: 5px;">
 {{ output|safe }}

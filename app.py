@@ -13,7 +13,7 @@ from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
 TITLE = 'jc web'
-DEBUG = False
+DEBUG = True
 
 app = Flask(__name__)
 secret_key = secrets.token_hex(16)
@@ -106,7 +106,7 @@ def home():
 
 class MyInput(FlaskForm):
     command_parser = SelectField('Parser', choices=parsers)
-    command_output = TextAreaField('Command Output', render_kw={'rows':'5', 'cols':'100'}, validators=[DataRequired()])
+    command_output = TextAreaField('Command Output', validators=[DataRequired()])
     pretty_print = BooleanField('Pretty Print', default='checked')
     submit = SubmitField('Convert to JSON')
 
