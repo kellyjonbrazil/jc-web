@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import secrets
+import sys
+import os
 import importlib
 import json
 from pygments import highlight
@@ -12,73 +13,25 @@ from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from jc.cli import info as jc_info
+from jc.cli import parsers
 
 TITLE = 'jc web'
-DEBUG = False
+DEBUG = True
 
 app = Flask(__name__)
-secret_key = secrets.token_hex(16)
-app.config['SECRET_KEY'] = secret_key
 
-parsers = [
-    'airport',
-    'airport_s',
-    'arp',
-    'blkid',
-    'crontab',
-    'crontab_u',
-    'csv',
-    'date',
-    'df',
-    'dig',
-    'dmidecode',
-    'du',
-    'env',
-    'file',
-    'free',
-    'fstab',
-    'group',
-    'gshadow',
-    'history',
-    'hosts',
-    'id',
-    'ifconfig',
-    'ini',
-    'iptables',
-    'jobs',
-    'kv',
-    'last',
-    'ls',
-    'lsblk',
-    'lsmod',
-    'lsof',
-    'mount',
-    'netstat',
-    'ntpq',
-    'passwd',
-    'ping',
-    'pip_list',
-    'pip_show',
-    'ps',
-    'route',
-    'shadow',
-    'ss',
-    'stat',
-    'sysctl',
-    'systemctl',
-    'systemctl_lj',
-    'systemctl_ls',
-    'systemctl_luf',
-    'timedatectl',
-    'tracepath',
-    'traceroute',
-    'uname',
-    'uptime',
-    'w',
-    'who',
-    'xml',
-    'yaml'
-]
+if os.getenv('APP_KEY'):
+    app.config['SECRET_KEY'] = os.getenv('APP_KEY')
+    print('Using production key', file=sys.stderr)
+else:
+    app.config['SECRET_KEY'] = 'deadbeef'
+    print('Using development key', file=sys.stderr)
+
+# convert parser list names to module names
+parser_mod_list = []
+for parser in parsers:
+    parser_mod_list.append(parser.replace('-', '_'))
+
 
 # --- ROUTES ---
 
@@ -106,7 +59,7 @@ def home():
 
 
 class MyInput(FlaskForm):
-    command_parser = SelectField('Parser', choices=parsers)
+    command_parser = SelectField('Parser', choices=parser_mod_list)
     command_output = TextAreaField('Command Output', validators=[DataRequired()])
     pretty_print = BooleanField('Pretty Print', default='checked')
     submit = SubmitField('Convert to JSON')

@@ -1,5 +1,9 @@
 jc-web changelog
 
+20200828 v0.3.1
+- Use imported parser list from jc.cli
+- Use APP_KEY env variable for production key
+
 20200828 v0.3.0
 - Add Help and About page as modal
 - Enhanced formatting with more Bootstrap classes
