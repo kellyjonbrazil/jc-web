@@ -11,9 +11,10 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
+from jc.cli import info as jc_info
 
 TITLE = 'jc web'
-DEBUG = True
+DEBUG = False
 
 app = Flask(__name__)
 secret_key = secrets.token_hex(16)
@@ -98,7 +99,7 @@ def home():
         else:
             output = json.dumps(output)
         output = highlight(output, JsonLexer(), HtmlFormatter(noclasses=True))
-    return render_template('home.html', title=TITLE, form=form, output=output)
+    return render_template('home.html', title=TITLE, jc_info=jc_info, form=form, output=output)
 
 
 # --- FORMS ---

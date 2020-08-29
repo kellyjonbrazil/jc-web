@@ -1,12 +1,8 @@
 jc-web changelog
 
-TODO
-- add and istructions/about page
-- add a link to github/pypi
-- make textarea field dynamicly size
-- fix form field formatting (no more <p> tags)
-- remember last parser when using the clear link
-- remember last parser when catching an exception
+20200828 v0.3.0
+- Add Help and About page as modal
+- Enhanced formatting with more Bootstrap classes
 
 20200826 v0.2.1
 - Deployable to Heroku
