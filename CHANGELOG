@@ -1,6 +1,6 @@
 jc-web changelog
 
-20200828 v0.3.1
+20200829 v0.3.1
 - Use imported parser list from jc.cli
 - Use APP_KEY env variable for production key
 
