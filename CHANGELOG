@@ -1,5 +1,8 @@
 jc-web changelog
 
+20200911 v0.3.5
+- Add Copy/Paste to Clipboard functionality
+
 20200911 v0.3.4
 - Use monospace font for textarea input
 
