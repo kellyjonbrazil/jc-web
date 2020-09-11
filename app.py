@@ -47,6 +47,7 @@ def home():
         except Exception:
             flash('jc was unable to parse the content. Did you use the correct parser?', 'danger')
             return render_template('home.html', title=TITLE, jc_info=jc_info, form=form, output=output)
+
         if form.pretty_print.data:
             output = json.dumps(output, indent=2)
         else:
