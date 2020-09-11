@@ -8,7 +8,7 @@ import json
 from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, flash
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
@@ -46,12 +46,13 @@ def home():
             output = parser.parse(form.command_output.data, quiet=True)
         except Exception:
             flash('jc was unable to parse the content. Did you use the correct parser?', 'danger')
-            return redirect(url_for('home'))
+            return render_template('home.html', title=TITLE, jc_info=jc_info, form=form, output=output)
         if form.pretty_print.data:
             output = json.dumps(output, indent=2)
         else:
             output = json.dumps(output)
         output = highlight(output, JsonLexer(), HtmlFormatter(noclasses=True))
+
     return render_template('home.html', title=TITLE, jc_info=jc_info, form=form, output=output)
 
 

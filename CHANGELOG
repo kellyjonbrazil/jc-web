@@ -1,5 +1,9 @@
 jc-web changelog
 
+20200910 v0.3.3
+- Save entered data on exception
+- Set brand title to link to home
+
 20200830 v0.3.2
 - Add copyright footer
 
