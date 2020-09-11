@@ -1,5 +1,8 @@
 jc-web changelog
 
+20200911 v0.3.4
+- Use monospace font for textarea input
+
 20200910 v0.3.3
 - Save entered data on exception
 - Set brand title to link to home
