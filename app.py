@@ -13,7 +13,7 @@ from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from jc.cli import info as jc_info
-from jc.cli import parsers
+from jc.cli import about_jc
 
 TITLE = 'jc web'
 DEBUG = False
@@ -29,8 +29,10 @@ else:
 
 # convert parser list names to module names
 parser_mod_list = []
-for parser in parsers:
-    parser_mod_list.append(parser.replace('-', '_'))
+for parser in about_jc()['parsers']:
+    # do not include streaming parsers
+    if not parser.get('streaming', None):
+        parser_mod_list.append(parser['name'])
 
 
 # --- ROUTES ---
