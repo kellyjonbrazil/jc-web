@@ -45,7 +45,7 @@ def home():
     if form.validate_on_submit():
         try:
             parser = importlib.import_module('jc.parsers.' + form.command_parser.data)
-            output = parser.parse(form.command_output.data, quiet=True)
+            output = parser.parse(form.command_output.data, quiet=True, raw=form.raw_json.data)
         except Exception:
             flash('jc was unable to parse the content. Did you use the correct parser?', 'danger')
             return render_template('home.html', title=TITLE, jc_info=jc_info, form=form, output=output)
@@ -66,6 +66,7 @@ class MyInput(FlaskForm):
     command_parser = SelectField('Parser', choices=parser_mod_list)
     command_output = TextAreaField('Command Output', validators=[DataRequired()])
     pretty_print = BooleanField('Pretty Print', default='checked')
+    raw_json = BooleanField('Raw JSON')
     submit = SubmitField('Convert to JSON')
 
 
