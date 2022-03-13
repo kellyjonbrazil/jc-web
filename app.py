@@ -36,7 +36,6 @@ def home():
     output = ''
     if form.validate_on_submit():
         try:
-            # parser = importlib.import_module('jc.parsers.' + form.command_parser.data)
             output = parse(form.command_parser.data,
                            form.command_output.data,
                            quiet=True,
