@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block body %}
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <div class="pt-2">Parser Info</div>
+    </div>
+    <div class="card-body" id="result">
+      <pre>Name: {{ p_info.name }}
+Description: {{ p_info.description }}
+Author: {{ p_info.author }}
+Author Email: {{ p_info.author_email }}
+OS Compatibility:  {{ p_info.compatible }}
+
+Documentation:
+{{ p_info.documentation }}</pre>
+    </div>
+  </div>
+{% endblock %}

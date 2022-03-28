@@ -11,7 +11,7 @@ from flask import Flask, render_template, flash
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
-from jc import __version__, standard_parser_mod_list, parse
+from jc import __version__, standard_parser_mod_list, parse, parser_info
 
 
 TITLE = 'jc web'
@@ -61,14 +61,29 @@ def home():
                            output=output)
 
 
+@app.route('/parserdoc', methods=(['POST']))
+def parser_doc():
+    form = MyInput()
+    p_info = ''
+
+    if form.validate_on_submit():
+        p_info = parser_info(form.command_parser.data, documentation=True)
+
+    return render_template('parserdoc.html',
+                           title=TITLE,
+                           jc_version=__version__,
+                           form=form,
+                           p_info=p_info)
+
 # --- FORMS ---
 
 
 class MyInput(FlaskForm):
     command_parser = SelectField('Parser', choices=standard_parser_mod_list())
-    command_output = TextAreaField('Command Output', validators=[DataRequired()])
+    command_output = TextAreaField('Command Output')
     pretty_print = BooleanField('Pretty Print', default='checked')
     raw_json = BooleanField('Raw JSON')
+    parserdoc = SubmitField('Get Parser Documentation')
     submit = SubmitField('Convert to JSON')
 
 
