@@ -4,13 +4,13 @@
 import sys
 import os
 import json
+import mistune
 from pygments import highlight
-from pygments.lexers import JsonLexer
+from pygments.lexers import JsonLexer, get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 from flask import Flask, render_template, flash
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
 from jc import __version__, standard_parser_mod_list, parse, parser_info
 
 
@@ -25,6 +25,15 @@ if os.getenv('APP_KEY'):
 else:
     app.config['SECRET_KEY'] = 'deadbeef'
     print('Using development key', file=sys.stderr)
+
+
+class HighlightRenderer(mistune.HTMLRenderer):
+    def block_code(self, code, lang=None):
+        if lang:
+            lexer = get_lexer_by_name(lang, stripall=True)
+            formatter = HtmlFormatter(noclasses=True)
+            return highlight(code, lexer, formatter)
+        return '<div style="background-color: #f8f8f8;"><pre>' + mistune.escape(code) + '</pre></div>'
 
 
 # --- ROUTES ---
@@ -65,15 +74,20 @@ def home():
 def parser_doc():
     form = MyInput()
     p_info = ''
+    md = mistune.create_markdown(renderer=HighlightRenderer())
 
     if form.validate_on_submit():
         p_info = parser_info(form.command_parser.data, documentation=True)
+        markdown_doc = md(p_info.get('documentation', ''))
+        markdown_desc = md(p_info.get('description', ''))
+        markdown_desc = markdown_desc.replace('<p>', '').replace('</p>', '')
 
     return render_template('parserdoc.html',
-                           title=TITLE,
+                           title=f'{TITLE} - {p_info.get("name", "")} documentation',
                            jc_version=__version__,
-                           form=form,
-                           p_info=p_info)
+                           p_info=p_info,
+                           description=markdown_desc,
+                           documentation=markdown_doc)
 
 # --- FORMS ---
 
