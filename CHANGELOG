@@ -2,6 +2,7 @@ jc-web changelog
 
 20220526 v0.5.0
 - Style code and blockquotes with mistune markdown library
+- Fix extra line at end of block quotes
 
 20211216 v0.4.0
 - Add Raw JSON output option
