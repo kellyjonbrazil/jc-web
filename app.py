@@ -14,7 +14,6 @@ from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from jc import __version__, standard_parser_mod_list, parse, parser_info
 
 
-__version__ = '0.5.0'
 TITLE = 'jc web'
 DEBUG = False
 
