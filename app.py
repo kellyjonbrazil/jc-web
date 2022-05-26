@@ -14,6 +14,7 @@ from wtforms.fields import TextAreaField, SelectField, BooleanField, SubmitField
 from jc import __version__, standard_parser_mod_list, parse, parser_info
 
 
+__version__ = '0.5.0'
 TITLE = 'jc web'
 DEBUG = False
 
@@ -34,6 +35,9 @@ class HighlightRenderer(mistune.HTMLRenderer):
             formatter = HtmlFormatter(noclasses=True)
             return highlight(code, lexer, formatter)
         return '<div style="background-color: #f8f8f8;"><pre>' + mistune.escape(code) + '</pre></div>'
+
+    def block_quote(self, text):
+        return '<blockquote class="alert alert-warning">' + text + '</blockquote>'
 
 
 # --- ROUTES ---
