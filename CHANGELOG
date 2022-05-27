@@ -1,5 +1,8 @@
 jc-web changelog
 
+20220527 v0.7.0
+- Enable mistune url and table plugins
+
 20220527 v0.6.0
 - Use bootstrap alert-secondary for codeblock styling
 

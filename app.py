@@ -77,7 +77,8 @@ def home():
 def parser_doc():
     form = MyInput()
     p_info = ''
-    md = mistune.create_markdown(renderer=HighlightRenderer())
+    md = mistune.create_markdown(renderer=HighlightRenderer(),
+                                 plugins=['table', 'url'])
 
     if form.validate_on_submit():
         p_info = parser_info(form.command_parser.data, documentation=True)
