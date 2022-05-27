@@ -33,7 +33,7 @@ class HighlightRenderer(mistune.HTMLRenderer):
             lexer = get_lexer_by_name(lang, stripall=True)
             formatter = HtmlFormatter(noclasses=True)
             return highlight(code, lexer, formatter)
-        return '<div style="background-color: #f8f8f8;"><pre>' + mistune.escape(code[:-1]) + '</pre></div>'
+        return '<div class="alert alert-secondary pb-0"><pre>' + mistune.escape(code[:-1]) + '</pre></div>'
 
     def block_quote(self, text):
         return '<blockquote class="alert alert-warning pb-0">' + text + '</blockquote>'

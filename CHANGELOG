@@ -1,5 +1,8 @@
 jc-web changelog
 
+20220527 v0.6.0
+- Use bootstrap alert-secondary for codeblock styling
+
 20220526 v0.5.0
 - Style code and blockquotes with mistune markdown library
 - Fix extra line at end of block quotes
