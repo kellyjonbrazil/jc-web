@@ -1,5 +1,8 @@
 jc-web changelog
 
+20220601 v0.8.0
+- Add YAML output option
+
 20220527 v0.7.0
 - Enable mistune url and table plugins
 
