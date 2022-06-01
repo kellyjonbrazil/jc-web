@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import io
 import sys
 import os
 import json
 import mistune
+from ruamel.yaml import YAML
 from pygments import highlight
-from pygments.lexers import JsonLexer, get_lexer_by_name
+from pygments.lexers import get_lexer_by_name
+from pygments.lexers.data import JsonLexer, YamlLexer
 from pygments.formatters import HtmlFormatter
 from flask import Flask, render_template, flash
 from flask_wtf import FlaskForm
@@ -25,6 +28,13 @@ if os.getenv('APP_KEY'):
 else:
     app.config['SECRET_KEY'] = 'deadbeef'
     print('Using development key', file=sys.stderr)
+
+# Configure YAML output options
+yaml = YAML()
+yaml.default_flow_style = False
+yaml.explicit_start = True
+yaml.allow_unicode = True
+yaml.encoding = 'utf-8'
 
 
 class HighlightRenderer(mistune.HTMLRenderer):
@@ -45,13 +55,15 @@ class HighlightRenderer(mistune.HTMLRenderer):
 @app.route('/', methods=('GET', 'POST'))
 def home():
     form = MyInput()
+    output_str = ''
     output = ''
+
     if form.validate_on_submit():
         try:
-            output = parse(form.command_parser.data,
+            out_dict = parse(form.command_parser.data,
                            form.command_output.data,
                            quiet=True,
-                           raw=form.raw_json.data)
+                           raw=form.raw_output.data)
         except Exception:
             flash('jc was unable to parse the content. Did you use the correct parser?', 'danger')
             return render_template('home.html',
@@ -60,11 +72,19 @@ def home():
                                    form=form,
                                    output=output)
 
-        if form.pretty_print.data:
-            output = json.dumps(output, indent=2)
+        if form.yaml_output.data:
+            y_string_buf = io.BytesIO()
+            yaml.dump(out_dict, y_string_buf)
+            output_str = y_string_buf.getvalue().decode('utf-8')[:-1]
+            output = highlight(output_str, YamlLexer(), HtmlFormatter(noclasses=True))
+
+        elif form.pretty_print.data:
+            output_str = json.dumps(out_dict, indent=2)
+            output = highlight(output_str, JsonLexer(), HtmlFormatter(noclasses=True))
+
         else:
-            output = json.dumps(output)
-        output = highlight(output, JsonLexer(), HtmlFormatter(noclasses=True))
+            output_str = json.dumps(out_dict)
+            output = highlight(output_str, JsonLexer(), HtmlFormatter(noclasses=True))
 
     return render_template('home.html',
                            title=TITLE,
@@ -100,9 +120,10 @@ class MyInput(FlaskForm):
     command_parser = SelectField('Parser', choices=standard_parser_mod_list())
     command_output = TextAreaField('Command Output')
     pretty_print = BooleanField('Pretty Print', default='checked')
-    raw_json = BooleanField('Raw JSON')
+    raw_output = BooleanField('Raw Output')
+    yaml_output = BooleanField('YAML Output')
     parserdoc = SubmitField('Get Parser Documentation')
-    submit = SubmitField('Convert to JSON')
+    submit = SubmitField('Convert to JSON or YAML')
 
 
 if __name__ == '__main__':
