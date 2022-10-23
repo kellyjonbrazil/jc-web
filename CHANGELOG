@@ -1,5 +1,8 @@
 jc-web changelog
 
+20221023 v0.8.1
+- Add render config file (render.yaml)
+
 20220601 v0.8.0
 - Add YAML output option
 - Bump Python version to 3.9.13
