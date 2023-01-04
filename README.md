@@ -2,7 +2,7 @@
 
 This is a `jc` web app to demonstrate its functionality.
 
-You can demo this app at https://jc-web-demo.herokuapp.com/
+You can demo this app at https://jc-web.onrender.com.
 
 `jc` (CLI and Python library) can be found at https://github.com/kellyjonbrazil/jc
 
