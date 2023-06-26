@@ -49,6 +49,9 @@ class HighlightRenderer(mistune.HTMLRenderer):
         return '<blockquote class="alert alert-warning pb-0">' + text + '</blockquote>'
 
 
+def strip_cr(text):
+    return text.replace('\r\n', '\n')
+
 # --- ROUTES ---
 
 
@@ -61,9 +64,9 @@ def home():
     if form.validate_on_submit():
         try:
             out_dict = parse(form.command_parser.data,
-                           form.command_output.data,
-                           quiet=True,
-                           raw=form.raw_output.data)
+                             strip_cr(form.command_output.data),
+                             quiet=True,
+                             raw=form.raw_output.data)
         except Exception:
             flash('jc was unable to parse the content. Did you use the correct parser?', 'danger')
             return render_template('home.html',
